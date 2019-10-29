@@ -1,0 +1,125 @@
+<ng-container *ngIf="!isLoading">
+    <div class="flex-container m-1">
+        <a class="waves-effect waves-light red  white-text btn-large modal-trigger" style="color:white !important;"
+            href="#modal-search">Pesquisar</a>
+        <a class="waves-effect waves-light red white-text btn-large" style="color:white !important;"
+            routerLink="/report" routerLinkActive="active">Gerar Relatório</a>
+    </div>
+    <div class="m-1">
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <p>Histórico</p>
+                            <p class="{{p.PESQUISA_STATUS == 'Concluido' ? 'pointer silent fc' : 'silent fc'}}" *ngFor="let p of historic"
+                                (click)="p.PESQUISA_STATUS == 'Concluido' ? callApi('id', '', '', p.ID_PESSOA, 'list') : ''"><i
+                                    class="{{p.PESQUISA_STATUS == 'Concluido' ? 'material-icons md-light green-text' : 'material-icons md-light deep-purple-text'}}">{{p.PESQUISA_STATUS == 'Concluido' ? 'check_circle' : 'restore'}}</i>
+                                {{p.NOME_COMPLETO}} <span *ngIf="p.NOME_COMPLETO">-</span> {{p.CPF}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m8">
+                <div class="card" *ngIf="!loadingPerson">
+                    <div class="card-content">
+                        <div class="row" *ngIf="dataLoaded && apiStatus == 'sucesso'">
+                            <ng-container *ngFor="let column of grid['Pessoa'][0]; let i = index">
+                                <div class="col" ngClass="m6 s12"
+                                    *ngIf="column.value != '' && column.value != null && column.label.indexOf('ID_') < 0">
+                                    <label>{{column.label}}</label>
+                                    <span class="card-title">{{column.value}}</span>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="card-action" *ngIf="dataLoaded && apiStatus == 'sucesso'">
+                            <ng-container *ngFor="let key of objectKeys(grid)">
+                                <a class="modal-trigger" *ngIf="key != 'Pessoa' && grid[key].length" (click)="selectSection(key)"
+                                    href="#modal-section">{{key}}</a>
+                            </ng-container>
+                        </div>
+                        <span class="card-title" *ngIf="!dataLoaded">Bem-vindo</span>
+                        <span class="silent" *ngIf="!dataLoaded">Selecione uma pessoa do histórico ou pesquise</span>
+                        <span class="card-title" *ngIf="dataLoaded && apiStatus == 'pendente'">Estamos buscando na base de dados</span>
+                        <span class="silent" *ngIf="dataLoaded && apiStatus == 'pendente'">Você será notificado quando terminarmos</span>
+                    </div>
+                </div>
+                <div *ngIf="loadingPerson">
+                    <div class="flex-center m-1">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="isLoading"><i></i>
+    <div class="flex-center m-1">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<div id="modal-search" class="modal">
+    <div class="modal-content">
+        <h4>Pesquisa</h4>
+        <div class="row">
+                <div class="input-field col m12">
+                        <span>Digite um dos documentos para achar pessoa</span>
+                    </div>
+            <div class="input-field col m12">
+                <label for="CPF">Digite o CPF</label>
+                <input type="text" id="cpf" name="cpf" [(ngModel)]="person.cpf">
+            </div>
+            <div class="input-field col m12">
+                <label for="CPF">Digite o RG</label>
+                <input type="text" id="rg" name="rg" [(ngModel)]="person.rg">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="modal-close waves-effect waves-light btn red white-text" style="color:white !important;"
+            (click)="search()" [disabled]="!person.rg && !person.cpf">Pesquisar</button>
+    </div>
+</div>
+<div id="modal-section" class="modal">
+    <div class="modal-content">
+        <h4>{{selectedSection}}</h4>
+        <div class="row">
+            <ng-container *ngFor="let registry of selected; let i = index">
+                <div class="row">
+                    <div class="col" ngClass="m12 s12"><p *ngIf="selected.length > 1">{{selectedSection}} {{i + 1}}<br><br></p></div>
+                    <ng-container *ngFor="let column of registry; let j = index">
+                        <div class="col" ngClass="m6 s12"
+                            *ngIf="column.value != '' && column.value != null && column.label.indexOf('ID_') < 0">
+                            <label>{{column.label}}</label>
+                            <p class="card-title">{{column.value}}</p>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </div>

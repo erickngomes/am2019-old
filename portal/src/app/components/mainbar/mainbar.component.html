@@ -1,0 +1,17 @@
+<nav>
+    <div class="nav-wrapper no-color">
+        <a clas="brand-logo" routerLink="/"><img class="logo-img" src="../../assets/img/logo-1.png"></a>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger" *ngIf="isLogged()"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right sidenav">
+            <li><a routerLink="/search" routerLinkActive="active" *ngIf="isLogged()">Pesquisa</a></li>
+            <li><a routerLink="/report" routerLinkActive="active" *ngIf="isLogged()">Gerar Relatório</a></li>
+            <li><a *ngIf="isLogged()" (click)="logout()">Logout</a></li>
+        </ul>
+        <ul id="nav-default" class="right hide-on-med-and-down">
+            <li><a routerLink="/search" routerLinkActive="active" *ngIf="isLogged()">Pesquisa</a></li>
+            <li><a routerLink="/report" routerLinkActive="active" *ngIf="isLogged()">Gerar Relatório</a></li>
+            <li><a *ngIf="isLogged()" (click)="logout()">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+        

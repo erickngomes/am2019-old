@@ -1,0 +1,54 @@
+.no-color {
+    background-color: #fff !important;
+}
+a{
+    color: #000 !important;
+}
+.logo-img {
+    max-height: 64px!important;
+    padding: 15px 0!important;
+    margin: 0 2%;
+}
+.m-1{
+    margin: 2% 15%;
+}
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.container  {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.white-text{
+    color:white !important;
+}
+
+    .tabs .tab a {
+        color: rgb(244, 67, 54);
+    }
+
+    [type="checkbox"]:checked + span:not(.lever):before {
+        border-right: 2px solid rgb(244, 67, 54);
+        border-bottom: 2px solid rgb(244, 67, 54);
+    }
+
+    .tabs .indicator {
+        background-color: rgb(244, 67, 54);
+    }
+
+    .input-field input:focus + label {
+        color: rgb(244, 67, 54) !important;
+    }
+
+    /* label underline focus color */
+
+    .row .input-field input:focus {
+        border-bottom: 1px solid rgb(244, 67, 54) !important;
+        box-shadow: 0 1px 0 0 rgb(244, 67, 54) !important
+    }
