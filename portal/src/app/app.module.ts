@@ -33,6 +33,7 @@ import {
     AuthGuard
 } from './auth/auth.guard';
 import { ConfigComponent } from './config/config.component';
+import { PersonExportComponent } from './components/person-export/person-export.component';
 
 const appRoutes: Routes = [
     {
@@ -68,7 +69,8 @@ const appRoutes: Routes = [
     MainbarComponent,
     ReportComponent,
     LoginComponent,
-    ConfigComponent
+    ConfigComponent,
+    PersonExportComponent
   ],
     imports: [
     BrowserModule,

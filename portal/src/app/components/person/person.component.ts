@@ -147,8 +147,8 @@ export class PersonComponent implements OnInit {
             data = Object.keys(data).map(function (key, index) {
                 let obj = {
                     'name': self.adjustString(key),
-                    'label': key.toUpperCase(),
-                    'value': data[key],
+                    'label': self.adjustString(key),
+                    'value': typeof data[key] == 'string' && data[key].indexOf('T0') > -1 ? data[key].split('T0')[0] : data[key],
                     'order': index
                 };
                 index++
@@ -163,7 +163,7 @@ export class PersonComponent implements OnInit {
         for (var i = 0; i < splitStr.length; i++) {
             splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
         }
-        return splitStr.join(' ');
+        return splitStr.join(' ').replace("_"," ");
     }
 
     selectSection(position) {

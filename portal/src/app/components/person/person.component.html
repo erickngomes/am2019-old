@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isLoading">
-    <div class="flex-container m-1">
+    <div class="flex-container m-1 screen-flex">
         <a class="waves-effect waves-light red  white-text btn-large modal-trigger" style="color:white !important;"
             href="#modal-search">Pesquisar</a>
         <a class="waves-effect waves-light red white-text btn-large" style="color:white !important;"
@@ -7,7 +7,7 @@
     </div>
     <div class="m-1">
         <div class="row">
-            <div class="col s12 m4">
+            <div class="col s12 m4 screen">
                 <div class="card">
                     <div class="card-content">
                         <div class="row">
@@ -22,12 +22,12 @@
                 </div>
             </div>
             <div class="col s12 m8">
-                <div class="card" *ngIf="!loadingPerson">
+                <div class="card screen" *ngIf="!loadingPerson">
                     <div class="card-content">
                         <div class="row" *ngIf="dataLoaded && apiStatus == 'sucesso'">
                             <ng-container *ngFor="let column of grid['Pessoa'][0]; let i = index">
                                 <div class="col" ngClass="m6 s12"
-                                    *ngIf="column.value != '' && column.value != null && column.label.indexOf('ID_') < 0">
+                                    *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
                                     <label>{{column.label}}</label>
                                     <span class="card-title">{{column.value}}</span>
                                 </div>
@@ -45,7 +45,7 @@
                         <span class="silent" *ngIf="dataLoaded && apiStatus == 'pendente'">Você será notificado quando terminarmos</span>
                     </div>
                 </div>
-                <div *ngIf="loadingPerson">
+                <div *ngIf="loadingPerson screen">
                     <div class="flex-center m-1">
                         <div class="preloader-wrapper big active">
                             <div class="spinner-layer spinner-blue-only">
@@ -62,12 +62,15 @@
                         </div>
                     </div>
                 </div>
+                <div *ngIf="dataLoaded && apiStatus == 'sucesso'">
+                    <app-person-export [grid]="grid"></app-person-export>
+                </div>
             </div>
         </div>
     </div>
 </ng-container>
 <ng-container *ngIf="isLoading"><i></i>
-    <div class="flex-center m-1">
+    <div class="flex-center m-1 screen">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
@@ -114,7 +117,7 @@
                     <div class="col" ngClass="m12 s12"><p *ngIf="selected.length > 1">{{selectedSection}} {{i + 1}}<br><br></p></div>
                     <ng-container *ngFor="let column of registry; let j = index">
                         <div class="col" ngClass="m6 s12"
-                            *ngIf="column.value != '' && column.value != null && column.label.indexOf('ID_') < 0">
+                            *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
                             <label>{{column.label}}</label>
                             <p class="card-title">{{column.value}}</p>
                         </div>

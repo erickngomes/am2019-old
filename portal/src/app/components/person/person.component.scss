@@ -67,3 +67,27 @@ a{
     font-size: 0.8rem;
     color: #9e9e9e;
 }
+
+@media only print{
+    .screen {
+        display:none;
+    }
+    .screen-flex{
+        display:none;
+    }
+    .print{
+        display: block;
+    }
+}
+
+@media only screen{
+    .screen {
+        display:block;
+    }
+    .print{
+        display: none;
+    }
+    .screen-flex{
+        display:flex;
+    }
+}
