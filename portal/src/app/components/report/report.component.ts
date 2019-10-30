@@ -103,6 +103,7 @@ export class ReportComponent implements OnInit {
         var elt = document.getElementById("export-table");
         var wb = XLSX.utils.table_to_book(elt, {
         });
+        this.hasToRender = false;
         return XLSX.writeFile(wb, ('MPSP.xlsx'));
     }
     public canExport = () => {
@@ -162,24 +163,19 @@ export class ReportComponent implements OnInit {
             if (p['checked'])
                 ids.push(p['ID_PESSOA']);
         });
-        this.response = new HttpResponse<Response>();
 
         this.reportService.getConfigResponse(ids)
             .subscribe(resp => {
-                console.log(resp);
                 this.peopleExported = [];
                 this.response = resp;
                 this.response.body.data.forEach((f, index) => {
-                    if (index != 0 && index != 1) {
-                        if (Array.isArray(f))
-                            f.forEach(d => {
-                                this.peopleExported.push(d);
-                            });
-                    }
+                    if (Array.isArray(f))
+                        f.forEach(d => {
+                            this.peopleExported.push(d);
+                        });
                 });
-                console.log(this.peopleExported);
-                this.hasToRender = true;
                 this.isLoading = false;
+                this.hasToRender = true;
             });
     }
 
