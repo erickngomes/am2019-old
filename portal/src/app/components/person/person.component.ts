@@ -146,13 +146,14 @@ export class PersonComponent implements OnInit {
             var self = this;
             data = Object.keys(data).map(function (key, index) {
                 let obj = {
-                    'name': self.adjustString(key),
-                    'label': self.adjustString(key),
-                    'value': typeof data[key] == 'string' && data[key].indexOf('T0') > -1 ? data[key].split('T0')[0] : data[key],
+                    'name': key,
+                    'label': key.startsWith('PDF_') ? self.adjustString(key.split('PDF_')[1]) : self.adjustString(key),
+                    'value': typeof data[key] == 'string' && !key.startsWith('PDF_') && data[key].indexOf('T0') > -1 ? data[key].split('T0')[0] : data[key],
                     'order': index
                 };
-                index++
+                index++;
                 return obj;
+                
             });
             return data;
         }
@@ -169,6 +170,12 @@ export class PersonComponent implements OnInit {
     selectSection(position) {
         this.selectedSection = this.adjustString(position);
         this.selected = this.grid[position];
+    }
+
+    openPdf(pdf){
+        var url = 'data:application/pdf;base64,'+pdf;
+        var win = window.open();
+        win.document.write('<iframe src="' + url  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
     ngOnInit() {
         this.showConfigResponse();

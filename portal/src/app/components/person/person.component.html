@@ -12,8 +12,10 @@
                     <div class="card-content">
                         <div class="row">
                             <p>Histórico</p>
-                            <p class="{{p.PESQUISA_STATUS == 'Concluido' ? 'pointer silent fc' : 'silent fc'}}" *ngFor="let p of historic"
-                                (click)="p.PESQUISA_STATUS == 'Concluido' ? callApi('id', '', '', p.ID_PESSOA, 'list') : ''"><i
+                            <p class="{{p.PESQUISA_STATUS == 'Concluido' ? 'pointer silent fc' : 'silent fc'}}"
+                                *ngFor="let p of historic"
+                                (click)="p.PESQUISA_STATUS == 'Concluido' ? callApi('id', '', '', p.ID_PESSOA, 'list') : ''">
+                                <i
                                     class="{{p.PESQUISA_STATUS == 'Concluido' ? 'material-icons md-light green-text' : 'material-icons md-light deep-purple-text'}}">{{p.PESQUISA_STATUS == 'Concluido' ? 'check_circle' : 'restore'}}</i>
                                 {{p.NOME_COMPLETO}} <span *ngIf="p.NOME_COMPLETO">-</span> {{p.CPF}}</p>
 
@@ -29,20 +31,26 @@
                                 <div class="col" ngClass="m6 s12"
                                     *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
                                     <label>{{column.label}}</label>
-                                    <span class="card-title">{{column.value}}</span>
+                                    <p class="card-title" *ngIf="!column.name.startsWith('PDF_')">{{column.value}}</p>
+                                    <div *ngIf="column.name.startsWith('PDF_')">
+                                        <a class="btn-small red white-text" style="color:white !important"
+                                            (click)="openPdf(column.value)" target="_blank">Clique para visualizar</a>
+                                    </div>
                                 </div>
                             </ng-container>
                         </div>
                         <div class="card-action" *ngIf="dataLoaded && apiStatus == 'sucesso'">
                             <ng-container *ngFor="let key of objectKeys(grid)">
-                                <a class="modal-trigger" *ngIf="key != 'Pessoa' && grid[key].length" (click)="selectSection(key)"
-                                    href="#modal-section">{{key}}</a>
+                                <a class="modal-trigger" *ngIf="key != 'Pessoa' && grid[key].length"
+                                    (click)="selectSection(key)" href="#modal-section">{{key}}</a>
                             </ng-container>
                         </div>
                         <span class="card-title" *ngIf="!dataLoaded">Bem-vindo</span>
                         <span class="silent" *ngIf="!dataLoaded">Selecione uma pessoa do histórico ou pesquise</span>
-                        <span class="card-title" *ngIf="dataLoaded && apiStatus == 'pendente'">Estamos buscando na base de dados</span>
-                        <span class="silent" *ngIf="dataLoaded && apiStatus == 'pendente'">Você será notificado quando terminarmos</span>
+                        <span class="card-title" *ngIf="dataLoaded && apiStatus == 'pendente'">Estamos buscando na base
+                            de dados</span>
+                        <span class="silent" *ngIf="dataLoaded && apiStatus == 'pendente'">Você será notificado quando
+                            terminarmos</span>
                     </div>
                 </div>
                 <div *ngIf="loadingPerson screen">
@@ -90,9 +98,9 @@
     <div class="modal-content">
         <h4>Pesquisa</h4>
         <div class="row">
-                <div class="input-field col m12">
-                        <span>Digite um dos documentos para achar pessoa</span>
-                    </div>
+            <div class="input-field col m12">
+                <span>Digite um dos documentos para achar pessoa</span>
+            </div>
             <div class="input-field col m12">
                 <label for="CPF">Digite o CPF</label>
                 <input type="text" id="cpf" name="cpf" [(ngModel)]="person.cpf">
@@ -114,12 +122,18 @@
         <div class="row">
             <ng-container *ngFor="let registry of selected; let i = index">
                 <div class="row">
-                    <div class="col" ngClass="m12 s12"><p *ngIf="selected.length > 1">{{selectedSection}} {{i + 1}}<br><br></p></div>
+                    <div class="col" ngClass="m12 s12">
+                        <p *ngIf="selected.length > 1">{{selectedSection}} {{i + 1}}<br><br></p>
+                    </div>
                     <ng-container *ngFor="let column of registry; let j = index">
                         <div class="col" ngClass="m6 s12"
                             *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
                             <label>{{column.label}}</label>
-                            <p class="card-title">{{column.value}}</p>
+                            <p class="card-title" *ngIf="!column.name.startsWith('PDF_')">{{column.value}}</p>
+                            <div *ngIf="column.name.startsWith('PDF_')">
+                                <a class="btn-small red white-text" style="color:white !important"
+                                    (click)="openPdf(column.value)" target="_blank">Clique para visualizar</a>
+                            </div>
                         </div>
                     </ng-container>
                 </div>

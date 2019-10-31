@@ -34,6 +34,7 @@ import {
 } from './auth/auth.guard';
 import { ConfigComponent } from './config/config.component';
 import { PersonExportComponent } from './components/person-export/person-export.component';
+import { SafePipe } from './safe.pipe';
 
 const appRoutes: Routes = [
     {
@@ -70,7 +71,8 @@ const appRoutes: Routes = [
     ReportComponent,
     LoginComponent,
     ConfigComponent,
-    PersonExportComponent
+    PersonExportComponent,
+    SafePipe
   ],
     imports: [
     BrowserModule,
