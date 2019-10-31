@@ -12,7 +12,7 @@
             </div>
             <ng-container *ngFor="let column of registry; let j = index">
                 <div class="col" ngClass="m6 s12"
-                    *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
+                    *ngIf="column.value != '' && column.value != null && column.name.indexOf('ID_') < 0 && column.name.indexOf('PDF_') < 0"> 
                     <label>{{column.label}}</label>
                     <p class="card-title">{{column.value}}</p>
                 </div>
