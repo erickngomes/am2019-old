@@ -36,8 +36,13 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.user = new User();
         this.showConfigResponse();
+        this.verifyLogin();
     }
 
+    verifyLogin() {
+        if(this.authService.isLoggedIn)
+            this.router.navigateByUrl('index');
+    }
     showConfigResponse() {
         this.configService.getConfigResponse()
             .subscribe(resp => {
@@ -55,12 +60,12 @@ export class LoginComponent implements OnInit {
 
         this.authService.apiUrl = this.config.url + this.config.auth + "/login";
         await this.authService.login(this.user.login, this.user.password, this.config, this, function(response, self){
-            console.log(response);
         if (response.isLoggedIn) {
             self.message = "Login realizado com sucesso";
             let redirect = response.redirectUrl ? self.router.parseUrl(response.redirectUrl) : 'index';
-            console.log(redirect);
-            self.router.navigateByUrl(redirect); 
+            self.authService.isLoggedIn = response.isLoggedIn;
+
+            window.location.reload();
         } else {
             self.message = "Erro ao realizar login: " + response.message;
             self.user = new User();
@@ -69,6 +74,5 @@ export class LoginComponent implements OnInit {
             html: self.message
         })
         });
+     }
     }
-
-}

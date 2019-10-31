@@ -46,20 +46,28 @@ export class PersonComponent implements OnInit {
     constructor(private configService: ConfigService, private personService: PersonService) { }
 
     public search = () => {
-        this.callApi('doc', this.person.cpf, this.person.rg, 9999, 'search');
+        var parm = {
+            cpf: this.person.cpf,
+            rg: this.person.rg
+        };
+        this.callApi('doc', parm, 'search');
     };
 
     getHistoric() {
         var url = this.config.url.concat(this.config.path) + '/historic?id=' + localStorage.userId;
         this.getApiData(url, 'historic', 'hist');
     }
-    public callApi(type, cpf, rg, key, from) {
-        if (cpf == '' || cpf == null)
-            cpf = 9999;
-        if (rg == '' || rg == null)
-            rg = 9999;
+    public callApi(type, parm, from) {
         this.loadingPerson = true;
-        var url = this.config.url.concat(this.config.path) + '/search?type=' + type + '&cpf=' + cpf + '&rg=' + rg + '&key=' + key + '&user=' + localStorage.userId;
+        var url = this.config.url.concat(this.config.path) + '/search?type=' + type + '&user=' + localStorage.userId;
+
+        if (parm.key)
+            url += '&key=' + parm.key;
+        if (parm.cpf)
+            url += '&cpf=' + parm.cpf;
+        if (parm.rg)
+            url += '&rg=' + parm.rg
+
         this.getApiData(url, 'person', from);
         this.isLoading = false;
     }
@@ -105,7 +113,7 @@ export class PersonComponent implements OnInit {
             .subscribe(resp => {
                 this.response = resp;
                 this.historic = this.response.body.data;
-                this.historic.sort((val1, val2)=>  {
+                this.historic.sort((val1, val2) => {
                     if (val1["PESQUISA_STATUS"] < val2["PESQUISA_STATUS"]) {
                         return -1;
                     }
@@ -153,7 +161,7 @@ export class PersonComponent implements OnInit {
                 };
                 index++;
                 return obj;
-                
+
             });
             return data;
         }
@@ -164,7 +172,7 @@ export class PersonComponent implements OnInit {
         for (var i = 0; i < splitStr.length; i++) {
             splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
         }
-        return splitStr.join(' ').replace("_"," ");
+        return splitStr.join(' ').replace("_", " ");
     }
 
     selectSection(position) {
@@ -172,10 +180,10 @@ export class PersonComponent implements OnInit {
         this.selected = this.grid[position];
     }
 
-    openPdf(pdf){
-        var url = 'data:application/pdf;base64,'+pdf;
+    openPdf(pdf) {
+        var url = 'data:application/pdf;base64,' + pdf;
         var win = window.open();
-        win.document.write('<iframe src="' + url  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+        win.document.write('<iframe src="' + url + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
     }
     ngOnInit() {
         this.showConfigResponse();

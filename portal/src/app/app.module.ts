@@ -16,7 +16,7 @@ import {
 } from '@angular/common/http';
 import {
     AppComponent
-} from './app.component';
+} from './components/app/app.component';
 import {
     PersonComponent
 } from './components/person/person.component';
@@ -34,7 +34,7 @@ import {
 } from './auth/auth.guard';
 import { ConfigComponent } from './config/config.component';
 import { PersonExportComponent } from './components/person-export/person-export.component';
-import { SafePipe } from './safe.pipe';
+import { SafePipe } from './pipe/safe.pipe';
 
 const appRoutes: Routes = [
     {

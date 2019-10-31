@@ -14,10 +14,10 @@
                             <p>Histórico</p>
                             <p class="{{p.PESQUISA_STATUS == 'Concluido' ? 'pointer silent fc' : 'silent fc'}}"
                                 *ngFor="let p of historic"
-                                (click)="p.PESQUISA_STATUS == 'Concluido' ? callApi('id', '', '', p.ID_PESSOA, 'list') : ''">
+                                (click)="p.PESQUISA_STATUS == 'Concluido' ? callApi('id', {key: p.ID_PESSOA}, 'list') : ''">
                                 <i
                                     class="{{p.PESQUISA_STATUS == 'Concluido' ? 'material-icons md-light green-text' : 'material-icons md-light deep-purple-text'}}">{{p.PESQUISA_STATUS == 'Concluido' ? 'check_circle' : 'restore'}}</i>
-                                {{p.NOME_COMPLETO}} <span *ngIf="p.NOME_COMPLETO">-</span> {{p.CPF}}</p>
+                                {{p.NOME_COMPLETO}} <span *ngIf="p.NOME_COMPLETO">-</span> {{p.CPF}} <span *ngIf="!p.NOME_COMPLETO || !p.CPF">&nbsp;<b>Pendente Pesquisa</b></span></p>
 
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             terminarmos</span>
                     </div>
                 </div>
-                <div *ngIf="loadingPerson screen">
+                <div *ngIf="loadingPerson screen-flex">
                     <div class="flex-center m-1">
                         <div class="preloader-wrapper big active">
                             <div class="spinner-layer spinner-blue-only">
@@ -78,7 +78,7 @@
     </div>
 </ng-container>
 <ng-container *ngIf="isLoading"><i></i>
-    <div class="flex-center m-1 screen">
+    <div class="flex-center m-1 screen-flex">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
