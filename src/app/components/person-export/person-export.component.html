@@ -1,0 +1,21 @@
+<div class="row screen">
+    <button class="btn red right fc" (click)="print()">Imprimir&nbsp;<i class="material-icons">print</i></button>
+</div>
+<div class="row print">
+    <div class="col m12 s12"><h3 class="card-title">Dados de Pessoa</h3></div>
+</div>
+<div class="row print" *ngFor="let key of objectKeys(grid)">
+   <div class="col" ngClass="m12 s12" *ngIf="grid[key].length && key!='Pessoa'"><h4>{{key}}</h4></div>
+    <ng-container *ngFor="let registry of grid[key]; let i = index">
+            <div class="col" ngClass="m12 s12">
+                <p *ngIf="grid[key].length > 1">{{key}} {{i + 1}}<br><br></p>
+            </div>
+            <ng-container *ngFor="let column of registry; let j = index">
+                <div class="col" ngClass="m6 s12"
+                    *ngIf="column.value != '' && column.value != null && column.label.indexOf('Id ') < 0">
+                    <label>{{column.label}}</label>
+                    <p class="card-title">{{column.value}}</p>
+                </div>
+            </ng-container>
+    </ng-container>
+</div>
